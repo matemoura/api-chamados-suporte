@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 import br.ufba.matc76.chamados.model.Chamado;
 import br.ufba.matc76.chamados.model.Prioridade;
@@ -75,5 +77,29 @@ public class ChamadoController {
                 .contains(texto.toLowerCase())
             )
             .toList();
+    }
+
+    @GetMapping("/criticos")
+    public List<Chamado> listarCriticos(){
+        return chamados.stream()
+            .filter(chamado -> chamado.prioridade() == Prioridade.ALTA
+                && chamado.status() != Status.RESOLVIDO)
+            .toList();
+    }
+
+    @GetMapping("/resumo")
+    public Map<String, Long> resumo(){
+        Map<String, Long> resumo = new LinkedHashMap<>();
+        resumo.put("abertos", contarPorStatus(Status.ABERTO));
+        resumo.put("emAndamento", contarPorStatus(Status.EM_ANDAMENTO));
+        resumo.put("resolvidos", contarPorStatus(Status.RESOLVIDO));
+        resumo.put("total", (long) chamados.size());
+        return resumo;
+    }
+
+    private long contarPorStatus(Status status){
+        return chamados.stream()
+            .filter(chamado -> chamado.status() == status)
+            .count();
     }
 }
