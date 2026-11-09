@@ -15,6 +15,9 @@ import br.ufba.matc76.chamados.model.Status;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -39,6 +42,8 @@ public class ChamadoController {
             new Chamado(12L, "Criar conta de acesso para novo estagiário", "Eduardo Pinto", "RH", Prioridade.MEDIA, Status.ABERTO)
         )
     );
+
+    private long proximoId = 13L;
 
     @GetMapping
     public List<Chamado> listar(){
@@ -95,6 +100,35 @@ public class ChamadoController {
         resumo.put("resolvidos", contarPorStatus(Status.RESOLVIDO));
         resumo.put("total", (long) chamados.size());
         return resumo;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Chamado cadastrar(@RequestBody Chamado chamado){
+        if (vazio(chamado.titulo()) || vazio(chamado.solicitante())
+                || vazio(chamado.setor()) || chamado.prioridade() == null) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Informe titulo, solicitante, setor e prioridade"
+            );
+        }
+
+        Status status = chamado.status() == null ? Status.ABERTO : chamado.status();
+
+        Chamado novo = new Chamado(
+            proximoId++,
+            chamado.titulo(),
+            chamado.solicitante(),
+            chamado.setor(),
+            chamado.prioridade(),
+            status
+        );
+        chamados.add(novo);
+        return novo;
+    }
+
+    private boolean vazio(String texto){
+        return texto == null || texto.isBlank();
     }
 
     private long contarPorStatus(Status status){
