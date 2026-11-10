@@ -1,0 +1,285 @@
+{
+  "info": {
+    "name": "API de Chamados",
+    "description": "Requisicoes para testar a API de chamados. Rode a API (mvn spring-boot:run) e execute na ordem.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 - Listar todos os chamados",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chamados",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados"
+          ]
+        }
+      }
+    },
+    {
+      "name": "02 - Consultar chamado por id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chamados/3",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados",
+            "3"
+          ]
+        }
+      }
+    },
+    {
+      "name": "03 - Consultar id que nao existe (404)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chamados/30",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados",
+            "30"
+          ]
+        }
+      }
+    },
+    {
+      "name": "04 - Filtrar por setor",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chamados/setor?nome=financeiro",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados",
+            "setor"
+          ],
+          "query": [
+            {
+              "key": "nome",
+              "value": "financeiro"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "05 - Filtrar por setor sem correspondencia",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chamados/setor?nome=juridico",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados",
+            "setor"
+          ],
+          "query": [
+            {
+              "key": "nome",
+              "value": "juridico"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "06 - Filtrar por prioridade",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chamados/prioridade?nivel=alta",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados",
+            "prioridade"
+          ],
+          "query": [
+            {
+              "key": "nivel",
+              "value": "alta"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "07 - Buscar pelo titulo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chamados/busca?texto=IMPRESSORA",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados",
+            "busca"
+          ],
+          "query": [
+            {
+              "key": "texto",
+              "value": "IMPRESSORA"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "08 - Chamados criticos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chamados/criticos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados",
+            "criticos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "09 - Resumo por status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chamados/resumo",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados",
+            "resumo"
+          ]
+        }
+      }
+    },
+    {
+      "name": "10 - Cadastrar novo chamado (201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/chamados",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Teclado com teclas travando\",\n  \"solicitante\": \"Renata Farias\",\n  \"setor\": \"Vendas\",\n  \"prioridade\": \"MEDIA\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "11 - Verificar chamado cadastrado",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chamados/13",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados",
+            "13"
+          ]
+        }
+      }
+    },
+    {
+      "name": "12 - Resumo depois do cadastro",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chamados/resumo",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados",
+            "resumo"
+          ]
+        }
+      }
+    },
+    {
+      "name": "13 - Cadastro sem titulo (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/chamados",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "chamados"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"solicitante\": \"Renata Farias\",\n  \"setor\": \"Vendas\",\n  \"prioridade\": \"MEDIA\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
